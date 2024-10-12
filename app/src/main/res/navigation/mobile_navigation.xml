@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/navigation_upcoming_events"
-        android:name="com.example.decodingevents.ui.upcomingEvents.UpcomingEventsFragment"
+        android:name="com.example.decodingevents.ui.upcoming_events.UpcomingEventsFragment"
         android:label="fragment_upcoming_events"
         tools:layout="@layout/fragment_upcoming_events" />
     <fragment
         android:id="@+id/navigation_finished_events"
-        android:name="com.example.decodingevents.ui.finishedEvents.FinishedEventsFragment"
+        android:name="com.example.decodingevents.ui.finished_events.FinishedEventsFragment"
         android:label="fragment_finished_events"
         tools:layout="@layout/fragment_finished_events" />
 </navigation>

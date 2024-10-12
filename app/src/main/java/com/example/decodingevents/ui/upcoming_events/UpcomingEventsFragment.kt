@@ -1,4 +1,4 @@
-package com.example.decodingevents.ui.upcomingEvents
+package com.example.decodingevents.ui.upcoming_events
 
 import android.os.Bundle
 import android.view.LayoutInflater

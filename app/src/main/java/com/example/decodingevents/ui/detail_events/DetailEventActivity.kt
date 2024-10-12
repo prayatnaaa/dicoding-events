@@ -1,6 +1,7 @@
 package com.example.decodingevents.ui.detail_events
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +32,16 @@ class DetailEventActivity : AppCompatActivity() {
 
         detailEventViewModel.isError.observe(this) {
             error -> setError(error)
+        }
+
+        detailEventViewModel.isLoading.observe(this) {
+            loading -> setLoading(loading)
+        }
+    }
+
+    private fun setLoading(loading: Boolean) {
+        if(!loading) {
+            binding.progressBar.visibility = View.INVISIBLE
         }
     }
 
