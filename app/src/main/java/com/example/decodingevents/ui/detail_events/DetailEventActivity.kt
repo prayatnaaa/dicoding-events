@@ -1,8 +1,10 @@
 package com.example.decodingevents.ui.detail_events
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
 import com.example.decodingevents.data.resource.DetailEventResponse
 import com.example.decodingevents.databinding.ActivityDetailEventBinding
@@ -23,10 +25,19 @@ class DetailEventActivity : AppCompatActivity() {
 
         id?.let { detailEventViewModel.getEventById(it) }
 
-        detailEventViewModel.detailEvent.observe(this) {
-            detail -> setDetail(detail)
+        detailEventViewModel.detailEvent.observe(this) { detail ->
+            setDetail(detail)
         }
 
+        detailEventViewModel.isError.observe(this) {
+            error -> setError(error)
+        }
+    }
+
+    private fun setError(error: Boolean) {
+        if (error) {
+            Toast.makeText(this, "${detailEventViewModel.errorMessage}", Toast.LENGTH_SHORT).show()
+        }
 
     }
 
@@ -38,6 +49,10 @@ class DetailEventActivity : AppCompatActivity() {
             tvEventOwnerName.text = detail.event.ownerName
             tvEventDate.text = detail.event.beginTime
             tvEventAvailableSeats.text = (detail.event.quota - detail.event.registrants).toString()
+            tvEventDescription.text = HtmlCompat.fromHtml(
+                detail.event.description,
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
         }
     }
 }
