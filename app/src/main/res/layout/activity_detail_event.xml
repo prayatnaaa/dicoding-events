@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.detail_events.DetailEventActivity">
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <TextView
+        android:id="@+id/tvEventName"
+        style="@style/TextviewDetailEvent"
+        android:layout_marginBottom="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="Name Event" />
+
+    <TextView
+        style="@style/TextviewDetailEvent"
+        android:text="@string/eventOwnerName" />
+
+    <TextView
+        android:id="@+id/tvEventOwnerName"
+        style="@style/TextviewDetailEvent"
+        android:layout_marginBottom="8dp"
+        android:textStyle="bold"
+        tools:text="Abdi Setyawan" />
+
+    <TextView
+        style="@style/TextviewDetailEvent"
+        android:text="@string/eventDate" />
+
+    <TextView
+        android:id="@+id/tvEventDate"
+        style="@style/TextviewDetailEvent"
+        android:layout_marginBottom="8dp"
+        android:textStyle="bold"
+        tools:text="January 2080" />
+
+    <TextView
+        style="@style/TextviewDetailEvent"
+        android:text="@string/eventSpaceLeft" />
+
+    <TextView
+        android:id="@+id/tvEventAvailableSeats"
+        style="@style/TextviewDetailEvent"
+        android:layout_marginBottom="8dp"
+        android:textStyle="bold"
+        tools:text="777" />
+
+    <TextView
+        android:id="@+id/tvEventDescription"
+        style="@style/TextviewDetailEvent"
+        android:layout_marginBottom="8dp"
+        tools:text="Deadpool" />
+
+    <Button
+        style="?attr/appBarLayoutStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/register" />
+
+</LinearLayout>

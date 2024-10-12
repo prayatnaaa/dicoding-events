@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">DecodingEvents</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="finished_event">Finished</string>
+    <string name="upcoming_event">Upcoming</string>
+    <string name="eventOwnerName">Owner name</string>
+    <string name="eventDate">Date</string>
+    <string name="eventSpaceLeft">Available seats</string>
+    <string name="register">Register</string>
+</resources>
