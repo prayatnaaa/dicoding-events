@@ -8,4 +8,5 @@
     <string name="eventDate">Date</string>
     <string name="eventSpaceLeft">Available seats</string>
     <string name="register">Register</string>
+    <string name="home">Home</string>
 </resources>

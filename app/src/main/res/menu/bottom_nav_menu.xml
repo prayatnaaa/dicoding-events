@@ -11,5 +11,10 @@
         android:icon="@drawable/upcoming_event"
         android:title="@string/upcoming_event" />
 
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/home"
+        android:title="@string/home" />
+
 
 </menu>

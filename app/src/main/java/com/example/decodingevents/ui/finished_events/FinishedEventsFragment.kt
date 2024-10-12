@@ -36,7 +36,7 @@ class FinishedEventsFragment : Fragment() {
 
         finishedEventsViewModel.listEvents("0")
 
-        finishedEventsViewModel.listEvents.observe(viewLifecycleOwner) { listFinishedEvents ->
+        finishedEventsViewModel.finishedEvents.observe(viewLifecycleOwner) { listFinishedEvents ->
             setListEvent(listFinishedEvents)
         }
 

@@ -1,5 +1,7 @@
 package com.example.decodingevents.ui.detail_events
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -30,17 +32,18 @@ class DetailEventActivity : AppCompatActivity() {
             setDetail(detail)
         }
 
-        detailEventViewModel.isError.observe(this) {
-            error -> setError(error)
+        detailEventViewModel.isError.observe(this) { error ->
+            setError(error)
         }
 
-        detailEventViewModel.isLoading.observe(this) {
-            loading -> setLoading(loading)
+        detailEventViewModel.isLoading.observe(this) { loading ->
+            setLoading(loading)
         }
+
     }
 
     private fun setLoading(loading: Boolean) {
-        if(!loading) {
+        if (!loading) {
             binding.progressBar.visibility = View.INVISIBLE
         }
     }
@@ -64,6 +67,12 @@ class DetailEventActivity : AppCompatActivity() {
                 detail.event.description,
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
+        }
+        binding.btnRegister.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse(detail.event.link)
+            }
+            startActivity(intent)
         }
     }
 }

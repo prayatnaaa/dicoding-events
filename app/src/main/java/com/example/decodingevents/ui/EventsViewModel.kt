@@ -14,9 +14,6 @@ import retrofit2.Response
 
 class EventsViewModel : ViewModel() {
 
-    private var _listEvents = MutableLiveData<List<ListEventsItem>>()
-    val listEvents: LiveData<List<ListEventsItem>> = _listEvents
-
     private var _isError = MutableLiveData<Boolean>()
     val isError: LiveData<Boolean> = _isError
 
@@ -29,19 +26,26 @@ class EventsViewModel : ViewModel() {
     private var _detailEvent = MutableLiveData<DetailEventResponse>()
     val detailEvent: LiveData<DetailEventResponse> = _detailEvent
 
+    private var _upcomingEvents = MutableLiveData<List<ListEventsItem>>()
+    val upcomingEvents: LiveData<List<ListEventsItem>> = _upcomingEvents
+
+    private var _finishedEvents = MutableLiveData<List<ListEventsItem>>()
+    val finishedEvents: LiveData<List<ListEventsItem>> = _finishedEvents
+
+
     fun getEventById(id: String) {
         _isLoading.value = true
 
         val client = ApiConfig.getApiService().getDetailEventById(id)
-        client.enqueue(object : Callback<DetailEventResponse>{
+        client.enqueue(object : Callback<DetailEventResponse> {
             override fun onResponse(
                 call: Call<DetailEventResponse>,
                 response: Response<DetailEventResponse>
             ) {
                 _isLoading.value = false
-                if(response.isSuccessful) {
+                if (response.isSuccessful) {
                     _detailEvent.value = response.body()
-                } else{
+                } else {
                     _isError.value = true
                     _errorMessage.value = response.message()
                 }
@@ -63,11 +67,12 @@ class EventsViewModel : ViewModel() {
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
-                    _listEvents.value = response.body()?.listEvents
-                    Log.d("EventsViewModel", response.body().toString())
+                    when (active) {
+                        "1" -> _upcomingEvents.value = response.body()?.listEvents
+                        "0" -> _finishedEvents.value = response.body()?.listEvents
+                    }
                 } else {
                     _isError.value = true
-                    Log.d("EventsViewModel", response.body().toString())
                 }
             }
 

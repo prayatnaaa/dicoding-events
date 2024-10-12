@@ -35,7 +35,7 @@ class UpcomingEventsFragment : Fragment() {
 
         upcomingEventsViewModel.listEvents("1")
 
-        upcomingEventsViewModel.listEvents.observe(viewLifecycleOwner) { events ->
+        upcomingEventsViewModel.upcomingEvents.observe(viewLifecycleOwner) { events ->
             setListEvent(events)
         }
 
