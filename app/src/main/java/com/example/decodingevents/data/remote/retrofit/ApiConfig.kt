@@ -1,5 +1,6 @@
-package com.example.decodingevents.data.retrofit
+package com.example.decodingevents.data.remote.retrofit
 
+import com.example.decodingevents.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -9,7 +10,9 @@ class ApiConfig {
     companion object {
         fun getApiService(): ApiService {
             val loggingInterceptor =
-                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+                if (BuildConfig.DEBUG) HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY) else HttpLoggingInterceptor().setLevel(
+                    HttpLoggingInterceptor.Level.NONE
+                )
             val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
             val retrofit = Retrofit.Builder().baseUrl("https://event-api.dicoding.dev/")
                 .addConverterFactory(GsonConverterFactory.create()).client(client).build()

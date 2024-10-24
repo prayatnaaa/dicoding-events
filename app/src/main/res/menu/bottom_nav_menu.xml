@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/home"
+        android:title="@string/home" />
+
+    <item
         android:id="@+id/navigation_finished_events"
         android:icon="@drawable/finished_event"
         android:title="@string/finished_event" />
@@ -12,9 +17,8 @@
         android:title="@string/upcoming_event" />
 
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/home"
-        android:title="@string/home" />
-
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings" />
 
 </menu>

@@ -1,4 +1,4 @@
-package com.example.decodingevents.ui.finished_events
+package com.example.decodingevents.ui.events.finished_events
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.decodingevents.data.resource.ListEventsItem
+import com.example.decodingevents.data.remote.resource.ListEventsItem
 import com.example.decodingevents.databinding.FragmentFinishedEventsBinding
-import com.example.decodingevents.ui.EventsAdapter
-import com.example.decodingevents.ui.EventsViewModel
+import com.example.decodingevents.ui.events.EventsAdapter
+import com.example.decodingevents.ui.events.EventsViewModel
 
 
 class FinishedEventsFragment : Fragment() {
@@ -19,6 +19,7 @@ class FinishedEventsFragment : Fragment() {
     private var _binding: FragmentFinishedEventsBinding? = null
     private val binding get() = _binding!!
     private val finishedEventsViewModel by viewModels<EventsViewModel>()
+    private val mList = ArrayList<ListEventsItem>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +38,7 @@ class FinishedEventsFragment : Fragment() {
         finishedEventsViewModel.listEvents("0")
 
         finishedEventsViewModel.finishedEvents.observe(viewLifecycleOwner) { listFinishedEvents ->
+            mList.clear()
             setListEvent(listFinishedEvents)
         }
 
@@ -48,15 +50,30 @@ class FinishedEventsFragment : Fragment() {
             setError(error)
         }
 
+        with(binding) {
+            searchView.setupWithSearchBar(searchBar)
+            searchView.editText.setOnEditorActionListener { _, _, _ ->
+                val adapter = EventsAdapter()
+                val query = searchView.text
+                searchBar.setText(query)
+                if (query.isNotEmpty()) {
+                    finishedEventsViewModel.searchEvent(query.toString(), adapter )
+                }
+
+                searchBar.onCancelPendingInputEvents()
+                false
+            }
+        }
     }
+
 
     private fun setError(error: Boolean) {
         if (error) {
-            Toast.makeText(
-                requireActivity(),
-                "${finishedEventsViewModel.errorMessage}",
-                Toast.LENGTH_SHORT
-            ).show()
+            finishedEventsViewModel.errorMessage.observe(viewLifecycleOwner) {
+                it.getContentIfNotHandled()?.let { errorMessage ->
+                    Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
     }

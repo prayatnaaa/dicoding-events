@@ -1,4 +1,4 @@
-package com.example.decodingevents.ui.upcoming_events
+package com.example.decodingevents.ui.events.upcoming_events
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,14 +8,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.decodingevents.data.resource.ListEventsItem
-import com.example.decodingevents.databinding.FragmentUpcomingEventsBinding
-import com.example.decodingevents.ui.EventsAdapter
-import com.example.decodingevents.ui.EventsViewModel
+import com.example.decodingevents.data.remote.resource.ListEventsItem
+import com.example.decodingevents.databinding.FragmentFinishedEventsBinding
+import com.example.decodingevents.ui.events.EventsAdapter
+import com.example.decodingevents.ui.events.EventsViewModel
 
 class UpcomingEventsFragment : Fragment() {
 
-    private var _binding: FragmentUpcomingEventsBinding? = null
+    private var _binding: FragmentFinishedEventsBinding? = null
     private val binding get() = _binding!!
     private val upcomingEventsViewModel by viewModels<EventsViewModel>()
 
@@ -23,7 +23,7 @@ class UpcomingEventsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentUpcomingEventsBinding.inflate(inflater, container, false)
+        _binding = FragmentFinishedEventsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -31,7 +31,7 @@ class UpcomingEventsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val layoutManager = LinearLayoutManager(requireActivity())
-        binding.rvUpcomingEvents.layoutManager = layoutManager
+        binding.rvFinishedEvents.layoutManager = layoutManager
 
         upcomingEventsViewModel.listEvents("1")
 
@@ -40,29 +40,41 @@ class UpcomingEventsFragment : Fragment() {
         }
 
         upcomingEventsViewModel.isLoading.observe(viewLifecycleOwner) { loaded ->
-            setLoading(loaded)
+            upcomingEventsViewModel.setLoading(loaded, binding.progressBar)
         }
 
         upcomingEventsViewModel.isError.observe(viewLifecycleOwner) { error ->
             setError(error)
         }
+
+        with(binding) {
+            searchView.setupWithSearchBar(searchBar)
+            searchView.editText.setOnEditorActionListener { _, _, _ ->
+                val adapter = EventsAdapter()
+                val query = searchView.text
+                searchBar.setText(query)
+                if (query.isNotEmpty()) {
+                    upcomingEventsViewModel.searchEvent(query.toString(), adapter )
+                }
+                false
+            }
+        }
     }
 
     private fun setError(error: Boolean) {
         if (error) {
-            Toast.makeText(requireActivity(), "Something went wrong!", Toast.LENGTH_SHORT).show()
+            upcomingEventsViewModel.errorMessage.observe(viewLifecycleOwner) {
+                it.getContentIfNotHandled()?.let { errorMessage ->
+                    Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
-    }
 
-    private fun setLoading(loaded: Boolean) {
-        if (!loaded) {
-            binding.progressBar.visibility = View.INVISIBLE
-        }
     }
 
     private fun setListEvent(events: List<ListEventsItem>) {
         val adapter = EventsAdapter()
         adapter.submitList(events)
-        binding.rvUpcomingEvents.adapter = adapter
+        binding.rvFinishedEvents.adapter = adapter
     }
 }

@@ -9,9 +9,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
-import com.example.decodingevents.data.resource.DetailEventResponse
+import com.example.decodingevents.data.remote.resource.DetailEventResponse
 import com.example.decodingevents.databinding.ActivityDetailEventBinding
-import com.example.decodingevents.ui.EventsViewModel
+import com.example.decodingevents.ui.events.EventsViewModel
 
 
 class DetailEventActivity : AppCompatActivity() {

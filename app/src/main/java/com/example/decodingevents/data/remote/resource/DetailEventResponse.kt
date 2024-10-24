@@ -1,4 +1,4 @@
-package com.example.decodingevents.data.resource
+package com.example.decodingevents.data.remote.resource
 
 import com.google.gson.annotations.SerializedName
 

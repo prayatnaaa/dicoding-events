@@ -1,4 +1,4 @@
-package com.example.decodingevents.ui
+package com.example.decodingevents.ui.events
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.decodingevents.data.resource.ListEventsItem
+import com.example.decodingevents.data.remote.resource.ListEventsItem
 import com.example.decodingevents.databinding.CardViewItemBinding
 import com.example.decodingevents.ui.detail_events.DetailEventActivity
 
 class EventsAdapter : ListAdapter<ListEventsItem, EventsAdapter.ViewHolder>(DIFF_CALLBACK) {
+
     class ViewHolder(private val binding: CardViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(event: ListEventsItem) {
@@ -39,7 +40,8 @@ class EventsAdapter : ListAdapter<ListEventsItem, EventsAdapter.ViewHolder>(DIFF
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = CardViewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            CardViewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

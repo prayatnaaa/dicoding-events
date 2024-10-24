@@ -5,7 +5,7 @@
     android:id="@+id/upcomingEventsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.upcoming_events.UpcomingEventsFragment">
+    tools:context=".ui.events.upcoming_events.UpcomingEventsFragment">
 
     <ProgressBar
         android:id="@+id/progressBar"
