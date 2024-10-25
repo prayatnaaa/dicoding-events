@@ -1,5 +1,6 @@
 package com.example.decodingevents.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
@@ -58,8 +59,20 @@ class EventRepository private constructor(
     fun getEvents(active: String): LiveData<Result<List<Event>>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.getListEvents(active)
-            val events = response.listEvents
+            val events = when (active) {
+                "1" -> {
+                    val response = apiService.getListEvents("1")
+                    response.listEvents
+                }
+                "0" -> {
+                    val response = apiService.getListEvents("0")
+                    response.listEvents
+                }
+                else -> {
+                    emptyList()
+                }
+            }
+            Log.d("EventRepository", "active: $active, size: ${events.count()}")
             val listEvent = events.map { event ->
                 val isFav = eventDao.isEventFavourite(event.name)
                 Event(

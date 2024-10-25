@@ -12,6 +12,8 @@ class SettingsViewModel(private val themePref: ThemePreference): ViewModel() {
         return themePref.getThemeSetting().asLiveData()
     }
 
+    suspend fun getCurrentTheme() = themePref.getCurrentTheme()
+
     fun setThemeSetting(isDarkModeActive: Boolean) {
         viewModelScope.launch {
             themePref.setThemeSetting(isDarkModeActive)

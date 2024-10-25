@@ -1,12 +1,19 @@
 package com.example.decodingevents.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.decodingevents.data.Result
 import com.example.decodingevents.databinding.FragmentHomeBinding
+import com.example.decodingevents.ui.EventViewModelFactory
+import com.example.decodingevents.ui.events.EventsAdapter
+import com.example.decodingevents.ui.events.EventsViewModel
 
 class HomeFragment : Fragment() {
 
@@ -31,6 +38,72 @@ class HomeFragment : Fragment() {
 
         binding.rvUpcomingHome.layoutManager = horizontalLayoutManager
         binding.rvFinishedHome.layoutManager = verticalLayoutManager
+
+        val viewModelProvider = EventViewModelFactory.getInstance(requireActivity())
+        val homeViewModel: EventsViewModel by viewModels {
+            viewModelProvider
+        }
+
+        val activeAdapter = EventsAdapter { event ->
+            if (event.isFavourite) {
+                homeViewModel.deleteNews(event)
+            } else {
+                homeViewModel.saveEvent(event)
+            }
+        }
+
+        val finishedAdapter = EventsAdapter { event ->
+            if (event.isFavourite) {
+                homeViewModel.deleteNews(event)
+            } else {
+                homeViewModel.saveEvent(event)
+            }
+        }
+
+        binding.rvUpcomingHome.adapter = activeAdapter
+        binding.rvFinishedHome.adapter = finishedAdapter
+
+        homeViewModel.getListEvent("1").observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when(result) {
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+
+                    is Result.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(requireActivity(), result.error, Toast.LENGTH_SHORT).show()
+                    }
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        val eventData = result.data.take(5)
+                        Log.d("HomeFragment", eventData.toString())
+                        activeAdapter.submitList(eventData)
+                    }
+                }
+            }
+        }
+
+        homeViewModel.getListEvent("0").observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when(result) {
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+
+                    is Result.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(requireActivity(), result.error, Toast.LENGTH_SHORT).show()
+                    }
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        val eventData = result.data.take(5)
+                        Log.d("HomeFragment", eventData.toString())
+                        finishedAdapter.submitList(eventData)
+                    }
+                }
+            }
+        }
 
     }
 }

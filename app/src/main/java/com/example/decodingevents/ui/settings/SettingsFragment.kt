@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.decodingevents.data.factory.ViewModelFactory
@@ -35,14 +34,8 @@ class SettingsFragment : Fragment() {
             ViewModelFactory(pref)
         )[SettingsViewModel::class.java]
 
-        settingsViewModel.getThemeSettings().observe(viewLifecycleOwner) {isDarkMode: Boolean ->
-            if (isDarkMode) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                binding.switchTheme.isChecked = true
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                binding.switchTheme.isChecked = false
-            }
+        settingsViewModel.getThemeSettings().observe(viewLifecycleOwner) {
+            checkDarkSetting(it)
         }
 
         binding.switchTheme.setOnCheckedChangeListener {
@@ -50,6 +43,14 @@ class SettingsFragment : Fragment() {
             settingsViewModel.setThemeSetting(isChecked)
         }
 
+    }
+
+    private fun checkDarkSetting(isDark: Boolean) {
+        if (isDark) {
+            binding.switchTheme.isChecked = true
+        } else {
+            binding.switchTheme.isChecked = false
+        }
     }
 
     override fun onDestroy() {
