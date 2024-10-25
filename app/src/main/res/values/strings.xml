@@ -15,4 +15,7 @@
     <string name="dark_mode">Dark mode</string>
     <string name="general">General</string>
     <string name="notification">Enable notifications</string>
+    <string name="error_message">Something went wrong</string>
+    <string name="save_favourite">Save Favourite\n</string>
+    <string name="favourie">Favourite</string>
 </resources>

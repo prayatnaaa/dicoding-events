@@ -20,7 +20,11 @@
         android:name="com.example.decodingevents.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
-
+    <fragment
+        android:id="@+id/navigation_favourite"
+        android:name="com.example.decodingevents.ui.favourite.FavouriteFragment"
+        android:label="fragment_favourite"
+        tools:layout="@layout/fragment_finished_events" />
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.example.decodingevents.ui.settings.SettingsFragment"

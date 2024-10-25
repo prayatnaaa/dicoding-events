@@ -3,37 +3,33 @@ package com.example.decodingevents.ui.events
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.decodingevents.data.remote.resource.ListEventsItem
+import com.example.decodingevents.R
+import com.example.decodingevents.data.local.entity.Event
 import com.example.decodingevents.databinding.CardViewItemBinding
 import com.example.decodingevents.ui.detail_events.DetailEventActivity
 
-class EventsAdapter : ListAdapter<ListEventsItem, EventsAdapter.ViewHolder>(DIFF_CALLBACK) {
+class EventsAdapter(private val onFavIconClicked: (Event) -> Unit) : ListAdapter<Event, EventsAdapter.ViewHolder>(DIFF_CALLBACK) {
 
-    class ViewHolder(private val binding: CardViewItemBinding) :
+    class ViewHolder(val binding: CardViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(event: ListEventsItem) {
+        fun bind(event: Event) {
             binding.tvEventsTitle.text = event.name
             Glide.with(binding.imgItem.context).load(event.imageLogo).into(binding.imgItem)
         }
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListEventsItem>() {
-            override fun areItemsTheSame(
-                oldItem: ListEventsItem,
-                newItem: ListEventsItem
-            ): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Event>() {
+            override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(
-                oldItem: ListEventsItem,
-                newItem: ListEventsItem
-            ): Boolean {
+            override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean {
                 return oldItem == newItem
             }
         }
@@ -50,8 +46,18 @@ class EventsAdapter : ListAdapter<ListEventsItem, EventsAdapter.ViewHolder>(DIFF
         holder.bind(event)
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailEventActivity::class.java)
-            intent.putExtra("id_key", event.id.toString())
+            intent.putExtra(DetailEventActivity.ID_KEY, event.id.toString())
             holder.itemView.context.startActivity(intent)
+        }
+
+        val ivFavourite = holder.binding.ivFavourite
+        if (event.isFavourite) {
+            ivFavourite.setImageDrawable(ContextCompat.getDrawable(ivFavourite.context, R.drawable.baseline_bookmark_24))
+        } else {
+            ivFavourite.setImageDrawable(ContextCompat.getDrawable(ivFavourite.context, R.drawable.ic_unbookmarked))
+        }
+        ivFavourite.setOnClickListener {
+            onFavIconClicked(event)
         }
     }
 }

@@ -9,68 +9,71 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
-import com.example.decodingevents.data.remote.resource.DetailEventResponse
+import com.example.decodingevents.data.Result
+import com.example.decodingevents.data.local.entity.Event
 import com.example.decodingevents.databinding.ActivityDetailEventBinding
+import com.example.decodingevents.ui.EventViewModelFactory
 import com.example.decodingevents.ui.events.EventsViewModel
 
 
 class DetailEventActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailEventBinding
-    private val detailEventViewModel by viewModels<EventsViewModel>()
+
+    companion object {
+        const val ID_KEY = "id_key"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val id = intent.getStringExtra("id_key")
-
-        id?.let { detailEventViewModel.getEventById(it) }
-
-        detailEventViewModel.detailEvent.observe(this) { detail ->
-            setDetail(detail)
+        val eventFactory: EventViewModelFactory =
+            EventViewModelFactory.getInstance(this)
+        val detailEventViewModel: EventsViewModel by viewModels {
+            eventFactory
         }
 
-        detailEventViewModel.isError.observe(this) { error ->
-            setError(error)
-        }
+        val id = intent.getStringExtra(ID_KEY)
 
-        detailEventViewModel.isLoading.observe(this) { loading ->
-            setLoading(loading)
+        detailEventViewModel.getEventById(id!!).observe(this) { result ->
+            if (result != null) {
+                when(result) {
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+
+                    is Result.Error -> {
+                        binding.progressBar.visibility = View.INVISIBLE
+                        Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
+                    }
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        setDetail(result.data)
+                    }
+                }
+            }
         }
 
     }
 
-    private fun setLoading(loading: Boolean) {
-        if (!loading) {
-            binding.progressBar.visibility = View.INVISIBLE
-        }
-    }
+    private fun setDetail(detail: Event) {
 
-    private fun setError(error: Boolean) {
-        if (error) {
-            Toast.makeText(this, "${detailEventViewModel.errorMessage}", Toast.LENGTH_SHORT).show()
-        }
-
-    }
-
-    private fun setDetail(detail: DetailEventResponse) {
-
-        Glide.with(binding.imgLogo.context).load(detail.event.imageLogo).into(binding.imgLogo)
+        Glide.with(binding.imgLogo.context).load(detail.imageLogo).into(binding.imgLogo)
         binding.apply {
-            tvEventName.text = detail.event.name
-            tvEventOwnerName.text = detail.event.ownerName
-            tvEventDate.text = detail.event.beginTime
-            tvEventAvailableSeats.text = (detail.event.quota - detail.event.registrants).toString()
+            tvEventName.text = detail.name
+            tvEventOwnerName.text = detail.ownerName
+            tvEventDate.text = detail.beginTime
+            tvEventAvailableSeats.text = (detail.quota - detail.registrants).toString()
             tvEventDescription.text = HtmlCompat.fromHtml(
-                detail.event.description,
+                detail.description,
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
         }
         binding.btnRegister.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse(detail.event.link)
+                data = Uri.parse(detail.link)
             }
             startActivity(intent)
         }

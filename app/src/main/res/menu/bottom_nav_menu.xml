@@ -17,6 +17,11 @@
         android:title="@string/upcoming_event" />
 
     <item
+        android:id="@+id/navigation_favourite"
+        android:icon="@drawable/ic_bookmark_black"
+        android:title="@string/favourie" />
+
+    <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/settings" />
