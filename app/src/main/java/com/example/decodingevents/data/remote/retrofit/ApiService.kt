@@ -18,4 +18,10 @@ interface ApiService {
         @Query("active") active: String = "-1",
         @Query("q") keyword: String
     ) : EventResponse
+
+    @GET("events")
+    fun getNotification(
+        @Query("active") active: String,
+        @Query("limit") limit: Int
+    ): DetailEventResponse
 }

@@ -39,13 +39,7 @@ class FavouriteFragment : Fragment() {
         val eventViewModel: EventsViewModel by viewModels {
             eventFactory
         }
-        val mAdapter = EventsAdapter { event ->
-            if (event.isFavourite) {
-                eventViewModel.deleteNews(event)
-            } else {
-                eventViewModel.saveEvent(event)
-            }
-        }
+        val mAdapter = EventsAdapter()
         val layoutManager = LinearLayoutManager(requireActivity())
         binding.rvUpcomingEvents.layoutManager = layoutManager
         binding.rvUpcomingEvents.adapter = mAdapter

@@ -8,8 +8,10 @@ import kotlinx.coroutines.launch
 
 class EventsViewModel(private val eventRepository: EventRepository) : ViewModel() {
 
-    fun getListEvent(active: String) = eventRepository.getEvents(active)
-    fun getEventById(id: String) = eventRepository.getEventById(id)
+    fun getListEvent(active: String, isActive: Boolean) = eventRepository.getEvents(active, isActive)
+    fun getActiveEvents() = eventRepository.getActiveEvents()
+    fun getFinishedEvent() = eventRepository.getFinishedEvents()
+    fun getEventById(id: String, isActive: Boolean) = eventRepository.getEventById(id, isActive )
     fun getFavouriteEvent() = eventRepository.getFavouriteEvent()
 
     fun saveEvent(event: Event) {

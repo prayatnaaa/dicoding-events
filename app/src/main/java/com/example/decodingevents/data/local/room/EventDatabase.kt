@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.decodingevents.data.local.entity.Event
 
-@Database(entities = [Event::class], version = 3, exportSchema = false)
+@Database(entities = [Event::class], version = 5, exportSchema = false)
 abstract class EventDatabase : RoomDatabase() {
     abstract fun eventDao(): EventDao
 

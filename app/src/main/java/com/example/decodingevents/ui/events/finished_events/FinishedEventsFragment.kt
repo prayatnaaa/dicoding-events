@@ -37,17 +37,11 @@ class FinishedEventsFragment : Fragment() {
         val eventViewModel: EventsViewModel by viewModels {
             eventFactory
         }
-        val mAdapter = EventsAdapter { event ->
-            if (event.isFavourite) {
-                eventViewModel.deleteNews(event)
-            } else {
-                eventViewModel.saveEvent(event)
-            }
-        }
+        val mAdapter = EventsAdapter()
         val layoutManager = LinearLayoutManager(requireActivity())
         binding.rvFinishedEvents.layoutManager = layoutManager
 
-        eventViewModel.getListEvent("0").observe(viewLifecycleOwner) { result ->
+        eventViewModel.getFinishedEvent().observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {

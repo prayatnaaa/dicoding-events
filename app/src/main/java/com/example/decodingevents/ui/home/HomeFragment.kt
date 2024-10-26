@@ -44,36 +44,51 @@ class HomeFragment : Fragment() {
             viewModelProvider
         }
 
-        val activeAdapter = EventsAdapter { event ->
-            if (event.isFavourite) {
-                homeViewModel.deleteNews(event)
-            } else {
-                homeViewModel.saveEvent(event)
-            }
-        }
+        val activeAdapter = EventsAdapter()
 
-        val finishedAdapter = EventsAdapter { event ->
-            if (event.isFavourite) {
-                homeViewModel.deleteNews(event)
-            } else {
-                homeViewModel.saveEvent(event)
-            }
-        }
+        val finishedAdapter = EventsAdapter()
 
         binding.rvUpcomingHome.adapter = activeAdapter
         binding.rvFinishedHome.adapter = finishedAdapter
 
-        homeViewModel.getListEvent("1").observe(viewLifecycleOwner) { result ->
+
+        homeViewModel.getFinishedEvent().observe(viewLifecycleOwner) { result ->
+            Log.d("HomeFragment", result.toString())
+                if (result != null) {
+                    when (result) {
+                        is Result.Loading -> {
+                            binding.progressBar.visibility = View.VISIBLE
+                        }
+
+                        is Result.Error -> {
+                            binding.progressBar.visibility = View.GONE
+                            Toast.makeText(requireActivity(), result.error, Toast.LENGTH_SHORT)
+                                .show()
+                        }
+
+                        is Result.Success -> {
+                            binding.progressBar.visibility = View.GONE
+                            val eventData = result.data.take(5)
+                            Log.d("HomeFragment", "Finish: $eventData")
+                            finishedAdapter.submitList(eventData)
+                        }
+                    }
+                }
+            }
+        homeViewModel.getActiveEvents().observe(viewLifecycleOwner) { result ->
+            Log.d("HomeFragment", "upcoming$result")
             if (result != null) {
-                when(result) {
+                when (result) {
                     is Result.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
                     }
 
                     is Result.Error -> {
                         binding.progressBar.visibility = View.GONE
-                        Toast.makeText(requireActivity(), result.error, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireActivity(), result.error, Toast.LENGTH_SHORT)
+                            .show()
                     }
+
                     is Result.Success -> {
                         binding.progressBar.visibility = View.GONE
                         val eventData = result.data.take(5)
@@ -83,27 +98,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-
-        homeViewModel.getListEvent("0").observe(viewLifecycleOwner) { result ->
-            if (result != null) {
-                when(result) {
-                    is Result.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-
-                    is Result.Error -> {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(requireActivity(), result.error, Toast.LENGTH_SHORT).show()
-                    }
-                    is Result.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        val eventData = result.data.take(5)
-                        Log.d("HomeFragment", eventData.toString())
-                        finishedAdapter.submitList(eventData)
-                    }
-                }
-            }
-        }
-
     }
+
 }

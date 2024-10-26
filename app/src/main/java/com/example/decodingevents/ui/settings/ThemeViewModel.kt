@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.decodingevents.data.preference.ThemePreference
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(private val themePref: ThemePreference): ViewModel() {
+class ThemeViewModel(private val themePref: ThemePreference): ViewModel() {
     fun getThemeSettings(): LiveData<Boolean> {
         return themePref.getThemeSetting().asLiveData()
     }

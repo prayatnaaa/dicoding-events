@@ -54,5 +54,8 @@ data class Event(
     var category: String,
 
     @ColumnInfo(name = "isFavourite")
-    var isFavourite: Boolean
+    var isFavourite: Boolean,
+
+    @ColumnInfo(name = "isActive")
+    var isActive: Boolean
 ) : Parcelable

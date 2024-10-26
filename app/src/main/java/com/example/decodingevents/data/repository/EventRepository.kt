@@ -16,7 +16,7 @@ class EventRepository private constructor(
     private val appExecutors: AppExecutors
 ) {
 
-    fun getEventById(id: String): LiveData<Result<Event>> = liveData {
+    fun getEventById(id: String, isActive: Boolean): LiveData<Result<Event>> = liveData {
         emit(Result.Loading)
         try {
             val response = apiService.getDetailEventById(id)
@@ -37,7 +37,8 @@ class EventRepository private constructor(
                 event.beginTime,
                 event.endTime,
                 event.category,
-                isFavourite
+                isFavourite,
+                isActive
             )
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
@@ -56,22 +57,11 @@ class EventRepository private constructor(
         eventDao.updateEvent(event)
     }
 
-    fun getEvents(active: String): LiveData<Result<List<Event>>> = liveData {
+    fun getEvents(active: String, isActive: Boolean): LiveData<Result<List<Event>>> = liveData {
         emit(Result.Loading)
         try {
-            val events = when (active) {
-                "1" -> {
-                    val response = apiService.getListEvents("1")
-                    response.listEvents
-                }
-                "0" -> {
-                    val response = apiService.getListEvents("0")
-                    response.listEvents
-                }
-                else -> {
-                    emptyList()
-                }
-            }
+            val response = apiService.getListEvents(active)
+            val events = response.listEvents
             Log.d("EventRepository", "active: $active, size: ${events.count()}")
             val listEvent = events.map { event ->
                 val isFav = eventDao.isEventFavourite(event.name)
@@ -90,7 +80,8 @@ class EventRepository private constructor(
                     event.beginTime,
                     event.endTime,
                     event.category,
-                    isFav
+                    isFav,
+                    isActive
                 )
             }
             eventDao.deleteAll()
@@ -98,12 +89,15 @@ class EventRepository private constructor(
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }
-        val localData: LiveData<Result<List<Event>>> = eventDao.getEvents().map {
+        val localData: LiveData<Result<List<Event>>> = eventDao.getEventsByStatus(isActive).map {
             Result.Success(it)
         }
         emitSource(localData)
 
     }
+
+    fun getActiveEvents(): LiveData<Result<List<Event>>> = getEvents("1", true)
+    fun getFinishedEvents(): LiveData<Result<List<Event>>> = getEvents("0", false)
 
 
     companion object {

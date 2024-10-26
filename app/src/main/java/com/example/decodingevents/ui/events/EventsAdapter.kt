@@ -3,17 +3,15 @@ package com.example.decodingevents.ui.events
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.decodingevents.R
 import com.example.decodingevents.data.local.entity.Event
 import com.example.decodingevents.databinding.CardViewItemBinding
 import com.example.decodingevents.ui.detail_events.DetailEventActivity
 
-class EventsAdapter(private val onFavIconClicked: (Event) -> Unit) : ListAdapter<Event, EventsAdapter.ViewHolder>(DIFF_CALLBACK) {
+class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     class ViewHolder(val binding: CardViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -47,17 +45,8 @@ class EventsAdapter(private val onFavIconClicked: (Event) -> Unit) : ListAdapter
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailEventActivity::class.java)
             intent.putExtra(DetailEventActivity.ID_KEY, event.id.toString())
+            intent.putExtra(DetailEventActivity.ID_ACTIVE, event.isActive)
             holder.itemView.context.startActivity(intent)
-        }
-
-        val ivFavourite = holder.binding.ivFavourite
-        if (event.isFavourite) {
-            ivFavourite.setImageDrawable(ContextCompat.getDrawable(ivFavourite.context, R.drawable.baseline_bookmark_24))
-        } else {
-            ivFavourite.setImageDrawable(ContextCompat.getDrawable(ivFavourite.context, R.drawable.ic_unbookmarked))
-        }
-        ivFavourite.setOnClickListener {
-            onFavIconClicked(event)
         }
     }
 }

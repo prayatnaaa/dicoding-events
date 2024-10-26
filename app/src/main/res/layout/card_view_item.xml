@@ -29,21 +29,8 @@
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
-
-        <ImageView
-            android:id="@+id/iv_favourite"
-            android:background="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:tag="Not Saved"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@string/save_favourite"
-            android:src="@drawable/ic_unbookmarked"
-            card_view:layout_constraintEnd_toEndOf="@id/img_item"
-            card_view:layout_constraintTop_toTopOf="@+id/img_item" />
+            tools:src="@tools:sample/avatars"
+            android:contentDescription="TODO" />
 
         <TextView
             card_view:layout_goneMarginTop="8dp"

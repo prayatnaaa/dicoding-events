@@ -20,8 +20,10 @@ interface EventDao {
     @Update
     suspend fun updateEvent(event: Event)
 
-    @Query("SELECT * FROM event ORDER BY begin_time DESC")
-    fun getEvents(): LiveData<List<Event>>
+
+    @Query("SELECT * FROM event WHERE isActive = :isActive")
+    fun getEventsByStatus(isActive: Boolean): LiveData<List<Event>>
+
 
     @Query("DELETE FROM event WHERE isFavourite = 0")
     suspend fun deleteAll()

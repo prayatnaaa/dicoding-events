@@ -11,35 +11,37 @@ import com.example.decodingevents.data.factory.ViewModelFactory
 import com.example.decodingevents.data.preference.ThemePreference
 import com.example.decodingevents.data.preference.dataStore
 import com.example.decodingevents.databinding.ActivityMainBinding
-import com.example.decodingevents.ui.settings.SettingsViewModel
+import com.example.decodingevents.ui.settings.ThemeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val pref = ThemePreference.getInstance(this.application.dataStore)
-        val settingsViewModel = ViewModelProvider(
+        val themeViewModel = ViewModelProvider(
             this,
             ViewModelFactory(pref)
-        )[SettingsViewModel::class.java]
+        )[ThemeViewModel::class.java]
 
         val isDarkModeActive = runBlocking {
-            settingsViewModel.getCurrentTheme()
+            themeViewModel.getCurrentTheme()
         }
 
         checkDarkSetting(isDarkModeActive)
-        settingsViewModel.getThemeSettings().observe(this) {
+        themeViewModel.getThemeSettings().observe(this) {
             checkDarkSetting(it)
         }
 
         val navView: BottomNavigationView = binding.bottomNavView
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         val navController = navHostFragment.navController
 
         navView.setupWithNavController(navController)
