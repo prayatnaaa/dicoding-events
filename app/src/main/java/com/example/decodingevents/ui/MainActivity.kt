@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         val pref = ThemePreference.getInstance(this.application.dataStore)
         val themeViewModel = ViewModelProvider(
             this,
-            ViewModelFactory(pref)
+            ViewModelFactory(pref, application)
         )[ThemeViewModel::class.java]
 
         val isDarkModeActive = runBlocking {

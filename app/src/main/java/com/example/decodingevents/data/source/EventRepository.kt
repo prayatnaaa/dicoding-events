@@ -1,10 +1,9 @@
-package com.example.decodingevents.data.repository
+package com.example.decodingevents.data.source
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
-import com.example.decodingevents.data.Result
 import com.example.decodingevents.data.local.entity.Event
 import com.example.decodingevents.data.local.room.EventDao
 import com.example.decodingevents.data.remote.retrofit.ApiService

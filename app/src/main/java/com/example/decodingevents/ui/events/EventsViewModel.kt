@@ -3,7 +3,7 @@ package com.example.decodingevents.ui.events
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.decodingevents.data.local.entity.Event
-import com.example.decodingevents.data.repository.EventRepository
+import com.example.decodingevents.data.source.EventRepository
 import kotlinx.coroutines.launch
 
 class EventsViewModel(private val eventRepository: EventRepository) : ViewModel() {

@@ -3,7 +3,7 @@ package com.example.decodingevents.data.di
 import android.content.Context
 import com.example.decodingevents.data.local.room.EventDatabase
 import com.example.decodingevents.data.remote.retrofit.ApiConfig
-import com.example.decodingevents.data.repository.EventRepository
+import com.example.decodingevents.data.source.EventRepository
 import com.example.decodingevents.util.AppExecutors
 
 object Injection {

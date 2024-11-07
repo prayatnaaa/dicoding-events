@@ -3,7 +3,6 @@ package com.example.decodingevents.ui.detail_events
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -11,10 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
 import com.example.decodingevents.R
-import com.example.decodingevents.data.Result
 import com.example.decodingevents.data.local.entity.Event
+import com.example.decodingevents.data.source.Result
 import com.example.decodingevents.databinding.ActivityDetailEventBinding
-import com.example.decodingevents.ui.EventViewModelFactory
+import com.example.decodingevents.ui.events.EventViewModelFactory
 import com.example.decodingevents.ui.events.EventsViewModel
 
 class DetailEventActivity : AppCompatActivity() {
@@ -42,7 +41,6 @@ class DetailEventActivity : AppCompatActivity() {
 
         detailEventViewModel.getEventById(id!!, isActive).observe(this) { result ->
             if (result != null) {
-                Log.d("DetailEventActivity", isActive.toString())
                 when (result) {
                     is Result.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
@@ -75,7 +73,6 @@ class DetailEventActivity : AppCompatActivity() {
             )
         }
 
-        // Update the floating button icon based on the current isFavourite status
         updateFloatingButtonIcon(detail.isFavourite)
 
         binding.btnRegister.setOnClickListener {
@@ -99,9 +96,9 @@ class DetailEventActivity : AppCompatActivity() {
 
     private fun updateFloatingButtonIcon(isFavourite: Boolean) {
         if (isFavourite) {
-            binding.floatingButton.setImageResource(R.drawable.baseline_bookmark_24) // Bookmarked icon
+            binding.floatingButton.setImageResource(R.drawable.baseline_bookmark_24)
         } else {
-            binding.floatingButton.setImageResource(R.drawable.ic_unbookmarked) // Unbookmarked icon
+            binding.floatingButton.setImageResource(R.drawable.ic_unbookmarked)
         }
     }
 }

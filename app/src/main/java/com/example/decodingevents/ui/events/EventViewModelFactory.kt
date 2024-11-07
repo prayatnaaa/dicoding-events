@@ -1,11 +1,10 @@
-package com.example.decodingevents.ui
+package com.example.decodingevents.ui.events
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.decodingevents.data.di.Injection
-import com.example.decodingevents.data.repository.EventRepository
-import com.example.decodingevents.ui.events.EventsViewModel
+import com.example.decodingevents.data.source.EventRepository
 
 class EventViewModelFactory private constructor(private val mEventRepository: EventRepository) :
     ViewModelProvider.NewInstanceFactory() {

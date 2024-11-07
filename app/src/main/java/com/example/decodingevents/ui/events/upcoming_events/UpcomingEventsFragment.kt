@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.decodingevents.R
-import com.example.decodingevents.data.Result
+import com.example.decodingevents.data.source.Result
 import com.example.decodingevents.databinding.FragmentFinishedEventsBinding
-import com.example.decodingevents.ui.EventViewModelFactory
+import com.example.decodingevents.ui.events.EventViewModelFactory
 import com.example.decodingevents.ui.events.EventsAdapter
 import com.example.decodingevents.ui.events.EventsViewModel
 

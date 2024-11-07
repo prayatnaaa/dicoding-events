@@ -9,7 +9,7 @@
     <string name="eventSpaceLeft">Available seats</string>
     <string name="register">Register</string>
     <string name="home">Home</string>
-    <string name="search_here">Search here...</string>
+    <string name="search_here">Search here…</string>
     <string name="settings">Settings</string>
     <string name="mode">Mode</string>
     <string name="dark_mode">Dark mode</string>
@@ -20,4 +20,6 @@
     <string name="favourie">Favourite</string>
     <string name="permission_success">Notification permission granted</string>
     <string name="permission_fail">Notification permission rejected</string>
+    <string name="image_logo">Image</string>
+    <string name="empty_fav">You do not have a favourite event</string>
 </resources>
