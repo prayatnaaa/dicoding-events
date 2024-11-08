@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.decodingevents.data.source.Result
 import com.example.decodingevents.databinding.FragmentHomeBinding
@@ -34,7 +35,7 @@ class HomeFragment : Fragment() {
         val horizontalLayoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         val verticalLayoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+            GridLayoutManager(requireActivity(), 2)
 
         binding.rvUpcomingHome.layoutManager = horizontalLayoutManager
         binding.rvFinishedHome.layoutManager = verticalLayoutManager
@@ -45,7 +46,6 @@ class HomeFragment : Fragment() {
         }
 
         val activeAdapter = EventsAdapter()
-
         val finishedAdapter = EventsAdapter()
 
         binding.rvUpcomingHome.adapter = activeAdapter

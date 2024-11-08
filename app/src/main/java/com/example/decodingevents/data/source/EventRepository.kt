@@ -56,46 +56,50 @@ class EventRepository private constructor(
         eventDao.updateEvent(event)
     }
 
-    fun getEvents(active: String, isActive: Boolean): LiveData<Result<List<Event>>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getListEvents(active)
-            val events = response.listEvents
-            Log.d("EventRepository", "active: $active, size: ${events.count()}")
-            val listEvent = events.map { event ->
-                val isFav = eventDao.isEventFavourite(event.name)
-                Event(
-                    event.id,
-                    event.summary,
-                    event.mediaCover,
-                    event.registrants,
-                    event.imageLogo,
-                    event.link,
-                    event.description,
-                    event.ownerName,
-                    event.cityName,
-                    event.quota,
-                    event.name,
-                    event.beginTime,
-                    event.endTime,
-                    event.category,
-                    isFav,
-                    isActive
-                )
+    private fun getEvents(active: String, isActive: Boolean): LiveData<Result<List<Event>>> =
+        liveData {
+            emit(Result.Loading)
+            try {
+                val response = apiService.getListEvents(active)
+                val events = response.listEvents
+                Log.d("EventRepository", "active: $active, size: ${events.count()}")
+                val listEvent = events.map { event ->
+                    val isFav = eventDao.isEventFavourite(event.name)
+                    Event(
+                        event.id,
+                        event.summary,
+                        event.mediaCover,
+                        event.registrants,
+                        event.imageLogo,
+                        event.link,
+                        event.description,
+                        event.ownerName,
+                        event.cityName,
+                        event.quota,
+                        event.name,
+                        event.beginTime,
+                        event.endTime,
+                        event.category,
+                        isFav,
+                        isActive
+                    )
+                }
+                eventDao.insertEvent(listEvent)
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
             }
-            eventDao.deleteAll()
-            eventDao.insertEvent(listEvent)
-        } catch (e: Exception) {
-            emit(Result.Error(e.message.toString()))
-        }
-        val localData: LiveData<Result<List<Event>>> = eventDao.getEventsByStatus(isActive).map {
-            Result.Success(it)
-        }
-        emitSource(localData)
+            val localData: LiveData<Result<List<Event>>> =
+                eventDao.getEventsByStatus(isActive).map {
+                    Result.Success(it)
+                }
+            emitSource(localData)
 
+        }
+
+    fun getActiveEvents(): LiveData<Result<List<Event>>> {
+        return getEvents("1", true)
     }
 
-    fun getActiveEvents(): LiveData<Result<List<Event>>> = getEvents("1", true)
     fun getFinishedEvents(): LiveData<Result<List<Event>>> = getEvents("0", false)
 
 

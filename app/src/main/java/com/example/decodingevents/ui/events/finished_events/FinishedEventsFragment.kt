@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.SnapHelper
 import com.example.decodingevents.R
 import com.example.decodingevents.data.source.Result
 import com.example.decodingevents.databinding.FragmentFinishedEventsBinding
@@ -38,8 +40,11 @@ class FinishedEventsFragment : Fragment() {
             eventFactory
         }
         val mAdapter = EventsAdapter()
-        val layoutManager = LinearLayoutManager(requireActivity())
+        val layoutManager = GridLayoutManager(requireActivity(), 2)
         binding.rvFinishedEvents.layoutManager = layoutManager
+        binding.rvFinishedEvents.setHasFixedSize(true)
+        val snapHelper: SnapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(binding.rvFinishedEvents)
 
         eventViewModel.getFinishedEvent().observe(viewLifecycleOwner) { result ->
             if (result != null) {
