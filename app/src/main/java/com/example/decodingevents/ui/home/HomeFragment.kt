@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
             viewModelProvider
         }
 
-        val activeAdapter = EventsAdapter()
+        val activeAdapter = HomeAdapter()
         val finishedAdapter = EventsAdapter()
 
         binding.rvUpcomingHome.adapter = activeAdapter

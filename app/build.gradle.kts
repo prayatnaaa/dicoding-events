@@ -71,4 +71,6 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.work.runtime)
     implementation(libs.android.async.http)
+
+    implementation(libs.circleimageview)
 }
