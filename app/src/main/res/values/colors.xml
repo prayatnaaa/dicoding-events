@@ -2,5 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary">#FFFFFFFF</color>
+    <color name="primary">#3f3f46</color>
+    <color name="onPrimary">#FFFFFF</color>
+
+    <!-- Secondary color for light theme -->
+    <color name="secondary">#d1d5db</color> <!-- A light gray for secondary elements -->
+    <color name="onSecondary">#3f3f46</color>
+    <color name="bottom">#3f3f46</color>
 </resources>

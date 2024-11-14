@@ -36,6 +36,7 @@ class FavouriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         val eventFactory: EventViewModelFactory =
             EventViewModelFactory.getInstance(requireActivity())
         val eventViewModel: EventsViewModel by viewModels {

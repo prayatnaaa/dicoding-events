@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#FF000000</color>
+    <!-- Primary color -->
+    <color name="primary">#3f3f46</color>
+    <color name="onPrimary">#FFFFFF</color>
+
+    <!-- Secondary color -->
+    <color name="secondary">#5a5a66</color>
+    <color name="onSecondary">#FFFFFF</color>
+    <color name="bottom">#3f3f46</color>
 </resources>
